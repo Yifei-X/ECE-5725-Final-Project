@@ -6,7 +6,7 @@ import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 import pickle
 
-def skin_detect(image):
+def skin_detect(image):#method 1 of skin detection using normal threshold on HSV and YCrCb
 	
 	img = image
 	hsv = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
@@ -27,7 +27,7 @@ def skin_detect(image):
 	mask = cv2.bitwise_and(img,img,mask=skin)
 	return skin,mask
 
-def skin_threshold(image):
+def skin_threshold(image): # method 2 using OTSU Threshold on Cr(YCrCb)
 	ycrcb = cv2.cvtColor(image,cv2.COLOR_BGR2YCR_CB)
 	(Y,Cr,Cb) = cv2.split(ycrcb)
 	Cr1 = cv2.GaussianBlur(Cr,(5,5),0)
@@ -41,7 +41,7 @@ def skin_threshold(image):
 	mask = cv2.bitwise_and(image,image,mask=skin)
 	return skin, mask
 	
-def skin_ellipse(image):
+def skin_ellipse(image):# method 3 of using eliipse method on YCrCb
 	skinCrCbHist = np.zeros((256,256),dtype = np.uint8)
 	cv2.ellipse(skinCrCbHist,(113,155),(23,25),43,0,360,(255,255,255),-1)
 	ycrcb = cv2.cvtColor(image,cv2.COLOR_BGR2YCR_CB)
@@ -58,7 +58,7 @@ def skin_ellipse(image):
 	mask = cv2.bitwise_and(image,image,mask=skin)
 	return skin, mask
 	
-def fourierDescriptor(cnt):
+def fourierDescriptor(cnt):# Fourier Decriptor used to extract feature from each figure(contour)
 	max_length = 42
 	cnt = cnt[:,0,:]
 	cnt_complex = np.empty(cnt.shape[0],dtype=complex)
