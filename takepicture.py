@@ -82,7 +82,7 @@ for frame in camera.capture_continuous(rawCapture,format = "bgr", use_video_port
 	cv2.imshow("MASK",mask)
 	
 	h = cv2.findContours(skin,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
-	contours = h[1] 
+	contours = h[0] 
 	ret = np.ones(image.shape,np.uint8)
 	cv2.drawContours(ret,contours,-1,(255,0,0),1)
 	cv2.imshow("Contour",ret)
